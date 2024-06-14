@@ -1,16 +1,53 @@
+//import mysql from 'mysql2/promise';
+const mysql = require('mysql2/promise');
+
+
 const express = require("express");
-const os = require("os");
+const { json } = require('body-parser');
+
 const app = express();
+
+
+async function consulta(){
+const connection = await mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    database: 'dbConsulta',
+  });
+
+
+  const [resultado] = await connection.query('SELECT * FROM `usuarios`;');
+
+  return resultado
+}
+
+
+
+
 
 app.get('/', (request, response) =>{
     return response.status(200).json({
-            message: 'teste'
+            message: 'raiz'
         })
 });
 
+
+app.get('/consulta-dados', async (request, response) => {  
+    
+    const resultado = await consulta();
+
+    return response.status(200).json({
+      message: 'Resultado da consulta',
+      dados: resultado,
+    });
+ 
+});
+
+
+
 app.get('/liveness', (request, response) =>{
     return response.status(200).json({
-            message: 'App escutando (liveness), servidor funcionando',
+            message: 'liveness',
             
        
         })
@@ -19,7 +56,7 @@ app.get('/liveness', (request, response) =>{
 
 app.get('/readiness', (request, response) =>{
     return response.status(200).json({
-            message: 'App pronto (readiness)'
+            message: 'readiness'
         })
 });
 
