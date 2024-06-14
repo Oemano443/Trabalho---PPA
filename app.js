@@ -3,7 +3,7 @@ const mysql = require('mysql2/promise');
 
 
 const express = require("express");
-const { json } = require('body-parser');
+
 
 const app = express();
 
