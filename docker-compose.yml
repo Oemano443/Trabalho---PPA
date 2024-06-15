@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  mysql2:
+    image: mysql:latest
+    container_name: mysql2-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dbConsulta
+    volumes:
+      - ./carga.sql:/docker-entrypoint-initdb.d/carga.sql
+    ports:
+      - "3306:3306"
+    networks: 
+      - red01
+
+  nodejs:
+    build: emano443/trabalho-4-ppa:0.0.1
+    container_name: nodejs
+    restart: always
+    ports:
+      - "3003:3003"
+    networks: 
+      - red01
+    depends_on:
+      - mysql2
+
+networks: 
+  red01:

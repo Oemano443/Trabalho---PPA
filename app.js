@@ -9,8 +9,9 @@ const app = express();
 
 async function consulta(){
 const connection = await mysql.createConnection({
-    host: 'localhost',
+    host: 'mysql2',
     user: 'root',
+    password:'',
     database: 'dbConsulta',
   });
 
